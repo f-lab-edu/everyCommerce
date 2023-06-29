@@ -13,9 +13,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="servletProject" />
-        <module name="commerceSevlet" />
+        <module name="commerceServlet" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="commerceSevlet" target="1.8" />
+      <module name="commersServlet" target="1.8" />
+      <module name="servletProject" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
