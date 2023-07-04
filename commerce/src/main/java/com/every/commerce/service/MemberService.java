@@ -2,19 +2,35 @@ package com.every.commerce.service;
 
 import com.every.commerce.dto.User;
 import com.every.commerce.repository.LoginRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
+@RequiredArgsConstructor
 public class MemberService {
 
 	@Autowired
 	private LoginRepository loginRepository;
 
-	public User login(){
+	/**
+	 *
+	 * @param loginId
+	 * @param password
+	 * @return
+	 */
+	public User login(String loginId, String password){
 
-		User user = new User();
+		Optional<User> userOptional = loginRepository.findByLoginId(loginId, password);
+		User user = userOptional.get();
 
-		return user;
+		if(user.getPw().equals(password)){
+			return user;
+		}else {
+			return null;
+		}
+
 	}
 }
