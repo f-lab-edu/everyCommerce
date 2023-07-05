@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="commerceSpring:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/commerceSpring_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="commerceSpring/web/웹" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="commerceSpring" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
