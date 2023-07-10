@@ -9,6 +9,8 @@ public class Member {
 
 	private Long id;
 	private String username;
+	private String pw;
+	private String email;
 	private int age;
 
 	//기본생성자
