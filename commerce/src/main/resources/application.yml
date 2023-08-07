@@ -7,3 +7,5 @@ spring:
 #    properties:
 #      hibernate:
 #        dialect:
+server:
+  port: 8080
