@@ -1,26 +1,44 @@
 package com.every.commerce.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
+import javax.persistence.*;
+
+
+@Entity
+@Table(name = "members")
+@DynamicUpdate
 @Getter
 @Setter
 public class Member {
-
+	@Id
+	@GeneratedValue
+	@Column(name = "loginId")
 	private Long id;
-	private String username;
-	private String pw;
+
+	@Column
+	private String name;
+
+	@Column
+	@JsonIgnore
+	private String password;
+
+	@Column
 	private String email;
-	private int age;
 
-	//기본생성자
-	public Member() {
+	@Column
+	private String cellphone;
 
-	}
+	@Column
+	private Authority grade;
 
-	public Member(String username, int age) {
-		this.username = username;
-		this.age = age;
 
+	public enum Authority {
+		ADMIN,
+		OPERATOR,
+		MEMBER
 	}
 }
