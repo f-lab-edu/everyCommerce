@@ -3,7 +3,6 @@ package com.every.commerce.service;
 import com.every.commerce.domain.Authority;
 import com.every.commerce.domain.Member;
 import com.every.commerce.dto.UserDTO;
-import com.every.commerce.repository.LoginRepository;
 import com.every.commerce.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +26,6 @@ import org.apache.commons.beanutils.BeanUtils;
 @Transactional
 /*@AllArgsConstructor //모든필드의 생성자를 자동으로 추가해준다.*/
 public class MemberService implements UserDetailsService {
-
-	@Autowired
-	private LoginRepository loginRepository;
 
 	@Autowired
 	private MemberRepository memberRepository;
