@@ -35,9 +35,4 @@ public class Member {
 	private Authority grade;
 
 
-	public enum Authority {
-		ADMIN,
-		OPERATOR,
-		MEMBER
-	}
 }

@@ -1,5 +1,6 @@
 package com.every.commerce.service;
 
+import com.every.commerce.domain.Authority;
 import com.every.commerce.domain.Member;
 import com.every.commerce.dto.UserDTO;
 import com.every.commerce.repository.LoginRepository;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import org.apache.commons.beanutils.BeanUtils;
 
 @Service
@@ -42,19 +44,22 @@ public class MemberService implements UserDetailsService {
 		return new User(member.getEmail(), member.getPassword(), authorities);
 
 	}
+
 	//회원가입
 	public String join(UserDTO dto) {
 
-		Optional<Member> member = memberRepository.findById(dto.getId());
-		if(!member.isPresent()){
-			try{
-				BeanUtils.copyProperties(member.get(), dto);
-			}catch (Exception e){
-				log.error("{}",e);
+		Optional<Member> exMember = memberRepository.findById(dto.getId());
+		if (!exMember.isPresent()) {
+			Member member = new Member();
+			try {
+				BeanUtils.copyProperties(member, dto);
+				member.setGrade(Authority.MEMBER);
+			} catch (Exception e) {
+				log.error("{}", e);
 			}
-			memberRepository.save(member.get());
-			return member.get().getId();
-		}else {
+			memberRepository.save(member);
+			return member.getId();
+		} else {
 			throw new IllegalStateException("이미 가입된 회원입니다.");
 		}
 

@@ -18,11 +18,18 @@ public class MemberController {
 	private MemberService memberService;
 
 	@PostMapping("/api/v1/members")
-	public String create(UserDTO dto) {
+	public String create(@RequestBody UserDTO dto) {
 
-		String id =memberService.join(dto);
+		String id = memberService.join(dto);
 
 		return id;
+	}
+
+	@PostMapping("/api/v1/test")
+	public String create() {
+
+
+		return "test";
 	}
 
 
