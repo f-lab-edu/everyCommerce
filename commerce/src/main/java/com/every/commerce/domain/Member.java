@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
@@ -34,5 +35,12 @@ public class Member {
 	@Column
 	private Authority grade;
 
+	public void encryptPassword(PasswordEncoder passwordEncoder) {
+		password = passwordEncoder.encode(password);
+	}
+
+	public void registerUser(PasswordEncoder passwordEncoder) {
+		password = passwordEncoder.encode(password);
+	}
 
 }

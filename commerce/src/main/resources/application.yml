@@ -5,6 +5,9 @@ spring:
     password: 1111
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     generate-ddl: true
     show-sql: true
+logging:
+  level:
+    org.springframework.security: DEBUG

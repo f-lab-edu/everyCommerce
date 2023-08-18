@@ -35,6 +35,7 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     implementation 'commons-beanutils:commons-beanutils:1.9.4'
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
+    testImplementation("org.assertj:assertj-core:3.22.0")
 }
 
 tasks.named('test') {
