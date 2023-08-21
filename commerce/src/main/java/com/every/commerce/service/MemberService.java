@@ -42,20 +42,11 @@ public class MemberService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<Member> member = memberRepository.findById(username);
 
-		PrincipalDTO dto = new PrincipalDTO(member.get());
+		Member member = memberRepository.findById(username).orElseThrow(() ->
+				new UsernameNotFoundException("User not found with id : " + username));
 
-		return dto;
-		/*Optional<Member> member = memberRepository.findById(username);
-		if (member.isPresent()) {
-
-			List<GrantedAuthority> authorities = new ArrayList<>();
-			authorities.add(new SimpleGrantedAuthority("ADMIN"));
-		}
-
-		return new PrincipalDTO(member.get());
-*/
+		return new PrincipalDTO(member);
 	}
 
 	//회원가입

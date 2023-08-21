@@ -31,8 +31,6 @@ import java.util.Properties;
 @Configuration
 public class SecurityConfig {
 
-/*https://recordsoflife.tistory.com/982*/
-
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -54,28 +52,17 @@ public class SecurityConfig {
 			}
 		});
 		/*특정 요청에 대해서 csrf 제외*/
-		http.csrf(csrf ->{
+		http.csrf(csrf -> {
 			try {
 				csrf.ignoringAntMatchers("/api/v1/members");
-			}catch (Exception e) {
+			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
 		});
 
 		return http.build();
 	}
-/*	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}*/
 
-/*
-	@Bean
-	public InMemoryUserDetailsManager userDetailsManager(){
-		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		return new InMemoryUserDetailsManager();
-	}
-*/
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -84,9 +71,7 @@ public class SecurityConfig {
 		Map<String, PasswordEncoder> encoders = new HashMap<>();
 		encoders.put("bcrypt", new BCryptPasswordEncoder());
 
-
 		return new DelegatingPasswordEncoder(idForEncode, encoders);
-
 	}
 }
 

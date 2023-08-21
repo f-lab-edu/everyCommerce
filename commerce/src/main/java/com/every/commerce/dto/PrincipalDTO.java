@@ -17,7 +17,7 @@ public class PrincipalDTO implements UserDetails {
 	private Member member;
 
 	public PrincipalDTO(Member member) {
-		this.member= member;
+		this.member = member;
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class PrincipalDTO implements UserDetails {
 
 		Collection<GrantedAuthority> collections = new ArrayList<>();
 		collections.add(() -> {
-			return "ROLE_"+member.getGrade().toString();
+			return "ROLE_" + member.getGrade().toString();
 
 		});
 		return collections;
@@ -46,11 +46,13 @@ public class PrincipalDTO implements UserDetails {
 	public boolean isAccountNonExpired() {
 		return true;
 	}
+
 	// 계정이 잠겼는지 (true: 잠기지 않음)
 	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
+
 	// 비밀번호가 만료되었는지 (true: 만료X)
 	@Override
 	public boolean isCredentialsNonExpired() {

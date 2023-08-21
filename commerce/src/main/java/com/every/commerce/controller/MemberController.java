@@ -33,12 +33,6 @@ public class MemberController {
 
 		return id;
 	}
-	@PostMapping("/api/v1/test")
-	public String create() {
-
-
-		return "test";
-	}
 
 
 }
