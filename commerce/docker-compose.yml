@@ -1,40 +1,14 @@
 version: '3'
 
 services:
-  springboot-app1:
-    build: .
-    ports:
-      - "8081:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/users_db?useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 1234
-    depends_on:
-      - database
-    networks:
-      - test_network
-
-  springboot-app2:
-    build: .
-    ports:
-      - "8082:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/users_db?useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 1234
-    depends_on:
-      - database
-    networks:
-      - test_network
-
   nginx:
+    container_name: nginx
     build: ./ci
     image: nginx:latest
     ports:
       - "80:80"
     depends_on:
-      - springboot-app1
-      - springboot-app2
+      - application
 
   database:
     container_name: mysql_db
@@ -48,11 +22,28 @@ services:
     ports:
       - "3307:3306"
     volumes:
-      - ./mysql/conf.d:/etc/mysql/conf.d
+      - ./mysql/conf.d:/etc/mysql/conf.d # MySQL 설정 파일 위치
     command:
       - "mysqld"
       - "--character-set-server=utf8mb4"
       - "--collation-server=utf8mb4_unicode_ci"
+    networks:
+      - test_network
+
+  application:
+    container_name: nginx-test
+    restart: on-failure
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "5000:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/users_db?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "1234"
+    depends_on:
+      - database
     networks:
       - test_network
 
