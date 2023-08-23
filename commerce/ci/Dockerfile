@@ -1,4 +1,3 @@
-FROM openjdk:11-jre
-ARG JAR_FILE=*.jar
-COPY build/libs/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+FROM nginx:1.22
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
