@@ -11,5 +11,3 @@ spring:
 #logging:
 #  level:
 #    org.springframework.security: DEBUG
-server:
-  port: 8000
