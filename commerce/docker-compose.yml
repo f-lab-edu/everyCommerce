@@ -1,12 +1,34 @@
 version: '3'
 
 services:
+  controller:
+    container_name: ngrinder-controller
+    image: ngrinder/controller:latest
+    environment:
+      - TZ=Asia/Seoul
+    ports:
+      - "7000:80"
+      - "16001:16001"
+      - "12000-12009:12000-12009"
+    volumes:
+      - /tmp/ngrinder-controller:/opt/ngrinder-controller
+    sysctls:
+      - net.core.somaxconn=65000
+  agent-1:
+    container_name: ngrinder-agent-1
+    image: ngrinder/agent:latest
+    links:
+      - controller
+    environment:
+      - TZ=Asia/Seoul
+    sysctls:
+      - net.core.somaxconn=65000
   nginx:
     container_name: nginx
     build: ./ci
     image: nginx:latest
     ports:
-      - "80:80"
+      - "90:90"
     depends_on:
       - application
       - application2
@@ -40,7 +62,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     ports:
-      - "5000:8080"
+      - "5000:9090"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/users_db?useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: "root"
@@ -56,7 +78,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     ports:
-      - "5001:8080"
+      - "5001:9090"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/users_db?useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: "root"
