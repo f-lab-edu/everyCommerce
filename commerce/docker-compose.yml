@@ -14,6 +14,8 @@ services:
       - /tmp/ngrinder-controller:/opt/ngrinder-controller
     sysctls:
       - net.core.somaxconn=65000
+    networks:
+      - test_network
   agent-1:
     container_name: ngrinder-agent-1
     image: ngrinder/agent:latest
@@ -23,6 +25,8 @@ services:
       - TZ=Asia/Seoul
     sysctls:
       - net.core.somaxconn=65000
+    networks:
+      - test_network
   nginx:
     container_name: nginx
     build: ./ci
