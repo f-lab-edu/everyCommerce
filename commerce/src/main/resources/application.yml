@@ -8,8 +8,8 @@ spring:
       ddl-auto: update
     generate-ddl: true
     show-sql: true
-logging:
-  level:
-    org.springframework.security: DEBUG
+#logging:
+#  level:
+#    org.springframework.security: DEBUG
 server:
-  port: 8000
+  port: 9090
