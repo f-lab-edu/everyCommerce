@@ -5,6 +5,7 @@
     성능테스트: ngrinder
     로드밸런서: nginx
     컨테이너: docker
+    로드밸런싱: spring gateway
 
 ### 서버 구조도
     나중에올림
@@ -15,9 +16,10 @@
 ### ERD
     나중에올리겠음
 ### 실행방법
-첫실행시
+첫실행시s
     application.yml ->      ddl-auto: create로 변경해주세요.
-    도커로 실행합니다. 
+    도커로 실행합니
+다. 
         terminal
         1. gradlew build
         2. docker compose build
