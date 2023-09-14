@@ -11,6 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="commerceServlet" target="1.8" />
       <module name="commerceSevlet" target="1.8" />
       <module name="commersServlet" target="1.8" />
       <module name="servletProject" target="1.8" />
