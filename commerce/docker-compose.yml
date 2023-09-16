@@ -14,8 +14,6 @@ services:
       - /tmp/ngrinder-controller:/opt/ngrinder-controller
     sysctls:
       - net.core.somaxconn=65000
-    networks:
-      - test_network
   agent-1:
     container_name: ngrinder-agent-1
     image: ngrinder/agent:latest
@@ -25,8 +23,7 @@ services:
       - TZ=Asia/Seoul
     sysctls:
       - net.core.somaxconn=65000
-    networks:
-      - test_network
+
   nginx:
     container_name: nginx
     build: ./ci
@@ -36,8 +33,6 @@ services:
     depends_on:
       - application
       - application2
-    networks:
-      - test_network
 
   database:
     container_name: mysql_db
@@ -56,8 +51,6 @@ services:
       - "mysqld"
       - "--character-set-server=utf8mb4"
       - "--collation-server=utf8mb4_unicode_ci"
-    networks:
-      - test_network
 
   application:
     container_name: nginx-test
@@ -73,8 +66,6 @@ services:
       SPRING_DATASOURCE_PASSWORD: "1234"
     depends_on:
       - database
-    networks:
-      - test_network
   application2:
     container_name: nginx-test2
     restart: on-failure
@@ -89,8 +80,6 @@ services:
       SPRING_DATASOURCE_PASSWORD: "1234"
     depends_on:
       - database
-    networks:
-      - test_network
 
-networks:
-  test_network:
+
+
