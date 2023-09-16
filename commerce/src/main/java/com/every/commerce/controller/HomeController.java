@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
+@RequestMapping("/member-service")
 public class HomeController {
 	@RequestMapping("/")
 	public String home() {
