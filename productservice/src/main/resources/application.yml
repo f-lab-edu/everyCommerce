@@ -12,4 +12,7 @@ spring:
 #  level:
 #    org.springframework.security: DEBUG
 server:
-  port: 9091
+  port: 9093
+logging:
+  level:
+    root: DEBUG
