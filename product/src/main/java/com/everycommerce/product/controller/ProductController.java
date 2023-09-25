@@ -1,4 +1,4 @@
-package com.everycommerce.productservice.controller;
+package com.everycommerce.product.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
