@@ -10,4 +10,9 @@ public class ProductController {
 	public String home() {
 		return "forward:/hello.html";
 	}
+
+	@RequestMapping
+	public String test(){
+		return null;
+	}
 }
