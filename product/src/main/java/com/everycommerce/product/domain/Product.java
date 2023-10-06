@@ -27,7 +27,7 @@ public class Product {
 	 * 물건가격
 	 */
 	@Column
-	private Integer price;
+	private Long price;
 
 	/**
 	 * 물건종류
@@ -45,4 +45,18 @@ public class Product {
 	 * 등록일자
 	 */
 
+
+	/**
+	 * 남은수량
+	 */
+	@Column
+	private Long quantity;
+
+	public void decrease(Long quantity){
+		if (this.quantity - quantity < 0) {
+			throw new RuntimeException("foo");
+		}
+
+		this.quantity -= quantity;
+	}
 }
