@@ -19,20 +19,25 @@ public class PurchaseServiceImpl implements PurchaseService {
 		this.productRepository = productRepository;
 	}
 
+
+
+	/**
+	 * 구매
+	 * 동시성보장
+	 *
+	 * @param id
+	 * @param count
+	 */
 	@Override
-	@Transactional
 	public void purchase(String id, long count) {
 
-		Product product = productRepository.findByWithPessimisticLock(id);
-		//재고도 같이가지고와야함.
 
-/*
+		/*
 		 * 아이디로 물건 조회, 몇개남았는지 재고가 없을시에는 발주 (현시스템에서는 그냥 재고 수량 올리기)
 		 * 구매는 동시성이 충족되어야 한다.
 		 * 재고감소로직 필요함.
 		 *
-*/
-
+		 */
 
 		//productRepository.save(product);
 		int threadCount = 100;
@@ -40,11 +45,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 		ExecutorService executorService = Executors.newFixedThreadPool(10); //고정된 쓰레드
 		CountDownLatch latch = new CountDownLatch(100);//100 개 끝날때까지 ,,
 
-		for (int i = 0; i<threadCount;i++){
-			executorService.submit(()->{
-				try{
-					product.decrease(count);
-				}finally {
+		for (int i = 0; i < threadCount; i++) {
+			executorService.submit(() -> {
+				try {
+					decrease(id, count);
+				} finally {
 					latch.countDown();
 				}
 			});
@@ -54,7 +59,14 @@ public class PurchaseServiceImpl implements PurchaseService {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		productRepository.saveAndFlush(product);
 
+	}
+
+
+	@Transactional
+	public void decrease(String id, Long count){
+		Product product = productRepository.findByWithPessimisticLock(id);
+		product.decrease(count);
+		productRepository.save(product);
 	}
 }
