@@ -14,11 +14,31 @@ import java.lang.reflect.InvocationTargetException;
 
 
 @Controller
-
+@RequestMapping("/member-service")
 public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+
+	@RequestMapping("/")
+	public String home() {
+		return "hello";
+	}
+
+	@RequestMapping("/main")
+	public String main() {
+		return "main";
+	}
+
+	@RequestMapping("/test")
+	public String test() {
+		return "test";
+	}
+
+	@RequestMapping("/login")
+	public String login() {
+		return "login";
+	}
 
 	@PostMapping("/api/v1/members")
 	public String create(@RequestBody UserDTO dto) {
@@ -38,5 +58,6 @@ public class MemberController {
 	public void test(){
 		System.out.println("test");
 	}
+
 
 }

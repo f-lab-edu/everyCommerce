@@ -1,14 +1,16 @@
 package com.everycommerce.product.domain;
 
+import com.everycommerce.product.exception.InsufficientQuantitiyException;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "product")
-@DynamicUpdate
+@DynamicUpdate /*모든 컬럼중에 변경된 컬럼만 update하는 기능*/
 @Getter
 @Setter
 public class Product {
@@ -27,7 +29,7 @@ public class Product {
 	 * 물건가격
 	 */
 	@Column
-	private Integer price;
+	private Long price;
 
 	/**
 	 * 물건종류
@@ -44,5 +46,21 @@ public class Product {
 	/**
 	 * 등록일자
 	 */
+	@Column
+	private LocalDateTime createdDate;
 
+	/**
+	 * 남은수량
+	 */
+	@Column
+	private Long quantity;
+
+
+	public void decrease(Long quantity){
+		if (this.quantity - quantity < 0) {
+			throw new InsufficientQuantitiyException("there are any have quantity");
+		}
+
+		this.quantity -= quantity;
+	}
 }
