@@ -1,5 +1,6 @@
 package com.everycommerce.product.domain;
 
+import com.everycommerce.product.exception.InsufficientQuantitiyException;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
@@ -57,7 +58,7 @@ public class Product {
 
 	public void decrease(Long quantity){
 		if (this.quantity - quantity < 0) {
-			throw new RuntimeException("foo");
+			throw new InsufficientQuantitiyException("there are any have quantity");
 		}
 
 		this.quantity -= quantity;
