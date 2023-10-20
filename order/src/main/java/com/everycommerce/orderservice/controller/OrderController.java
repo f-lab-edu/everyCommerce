@@ -17,7 +17,7 @@ public class OrderController {
 		this.orderSerive = orderSerive;
 	}
 
-	@RequestMapping("/")
+	@GetMapping("/")
 	public String home(){
 		return "hello Orderservice";
 	}
