@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Data
 public class OrderDTO {
 
-	private Long id;
+
 
 	private String memberId;
 
@@ -16,5 +16,4 @@ public class OrderDTO {
 
 	private String productId;
 
-	private LocalDateTime orderTime;
 }

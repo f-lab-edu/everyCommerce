@@ -3,6 +3,8 @@ package com.everycommerce.orderservice.controller;
 import com.everycommerce.orderservice.dto.OrderDTO;
 import com.everycommerce.orderservice.service.OrderSerive;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,8 +22,8 @@ public class OrderController {
 		return "hello Orderservice";
 	}
 
-	@RequestMapping("/api/newOrder")
-	public String createOrder(OrderDTO orderDTO){
+	@GetMapping("/api/newOrder")
+	public String createOrder(@RequestBody OrderDTO orderDTO){
 		orderSerive.createOrder(orderDTO);
 		return "dd";
 	}
