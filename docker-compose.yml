@@ -79,4 +79,11 @@ services:
     depends_on:
       - member
       - member2
+  apigateway:
+    container_name: gateway
+    ports:
+    - "9002:9001"
+    build:
+      context: .
+      dockerfile: ./gateway/Dockerfile
 

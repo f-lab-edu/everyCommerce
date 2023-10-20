@@ -7,7 +7,7 @@ spring:
     gateway:
       routes:
         - id: member-service
-          uri: http://localhost:90/
+          uri: http://member-service:90/
           predicates:
             - Path=/member-service/**
         - id: product-service
