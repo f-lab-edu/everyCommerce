@@ -1,6 +1,7 @@
 package com.everycommerce.product.service;
 
 import com.everycommerce.product.domain.Product;
+import com.everycommerce.product.dto.DecreaseDTO;
 import com.everycommerce.product.dto.ProductDTO;
 import com.everycommerce.product.repository.ProductRepository;
 import org.modelmapper.convention.MatchingStrategies;
@@ -28,18 +29,33 @@ public class PurchaseServiceImpl implements PurchaseService {
 	 * @param id
 	 * @param count
 	 */
+	@Transactional
+	@Override
+	public Boolean purchase(DecreaseDTO decreaseDTO) {
+
+		Product product = productRepository.findByWithPessimisticLock(decreaseDTO.getId());
+		product.decrease(decreaseDTO.getCount());
+		productRepository.save(product);
+		return true;
+	}
 
 
+
+/*
 	@Override
 	@Transactional
-	public void purchase(String id, long count) throws InterruptedException {
-		/*
+	public Boolean purchase(String id, long count) throws InterruptedException {
+		*/
+/*
 		* TODO: order로 빠져야하는 기능.
-		* */
+		* *//*
+
 		Product product = productRepository.findByWithPessimisticLock(id);
 		product.decrease(count);
 		productRepository.save(product);
+		return true;
 	}
+*/
 
 	@Override
 	@Transactional

@@ -1,13 +1,12 @@
 package com.everycommerce.product.controller;
 
+import com.everycommerce.product.dto.DecreaseDTO;
 import com.everycommerce.product.dto.ProductDTO;
 import com.everycommerce.product.service.PurchaseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,6 +28,11 @@ public class ProductController {
 	@RequestMapping("/")
 	public String home() {
 		return "forward:/hello.html";
+	}
+
+	@GetMapping("/test")
+	public String test(){
+		return "성공";
 	}
 
 	/**
@@ -72,5 +76,13 @@ public class ProductController {
 		return ResponseEntity.status(HttpStatus.OK).body(productDTOList);
 	}
 
+	/**
+	 * 물건 재고 줄이기
+	 * */
+	@PostMapping("/api/decrease")
+	public Boolean purchase(@RequestBody DecreaseDTO decreaseDTO) throws InterruptedException{
+	 purchaseService.purchase(decreaseDTO);
+		return true;
+	}
 
 }

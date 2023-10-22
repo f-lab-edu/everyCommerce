@@ -1,6 +1,7 @@
 package com.everycommerce.product.service;
 
 import com.everycommerce.product.domain.Product;
+import com.everycommerce.product.dto.DecreaseDTO;
 import com.everycommerce.product.repository.ProductRepository;
 import org.aspectj.lang.annotation.After;
 import org.junit.jupiter.api.AfterEach;
@@ -33,6 +34,9 @@ public class PurchaseServiceTest {
 		product.setQuantity(100L);
 
 		productRepository.save(product);
+
+
+
 	}
 
 	@AfterEach
@@ -41,7 +45,9 @@ public class PurchaseServiceTest {
 	}
 	@Test
 	public void test() throws InterruptedException {
-
+		DecreaseDTO decreaseDTO = new DecreaseDTO();
+		decreaseDTO.setCount(1L);
+		decreaseDTO.setId("1");
 		int threadCount = 100;
 		Executor executor = Executors.newCachedThreadPool();//쓰레드풀 재사용
 		ExecutorService executorService = Executors.newFixedThreadPool(32); //고정된 쓰레드
@@ -50,7 +56,8 @@ public class PurchaseServiceTest {
 		for (int i = 0; i < threadCount; i++) {
 			executorService.submit(() -> {
 				try {
-					purchaseService.decrease("1",1L);
+
+					purchaseService.purchase(decreaseDTO);
 				} finally {
 					latch.countDown();
 				}
