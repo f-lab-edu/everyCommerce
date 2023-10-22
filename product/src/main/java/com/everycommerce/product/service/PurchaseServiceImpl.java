@@ -25,18 +25,17 @@ public class PurchaseServiceImpl implements PurchaseService {
 	/**
 	 * 구매
 	 * 동시성보장
-	 *
-	 * @param id
-	 * @param count
 	 */
 	@Transactional
 	@Override
-	public Boolean purchase(DecreaseDTO decreaseDTO) {
+	public ProductDTO purchase(DecreaseDTO decreaseDTO) {
 
 		Product product = productRepository.findByWithPessimisticLock(decreaseDTO.getId());
 		product.decrease(decreaseDTO.getCount());
 		productRepository.save(product);
-		return true;
+		ModelMapper modelMapper = new ModelMapper();
+		ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
+		return productDTO;
 	}
 
 
@@ -46,9 +45,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Transactional
 	public Boolean purchase(String id, long count) throws InterruptedException {
 		*/
-/*
-		* TODO: order로 빠져야하는 기능.
-		* *//*
+	/*
+	 * TODO: order로 빠져야하는 기능.
+	 * *//*
 
 		Product product = productRepository.findByWithPessimisticLock(id);
 		product.decrease(count);
@@ -61,8 +60,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Transactional
 	public void createProduct(ProductDTO productDTO) {
 		/*
-		* TODO: 멤버권한이 필요하다  특정 권한 이상 생성이 가능함
-		* */
+		 * TODO: 멤버권한이 필요하다  특정 권한 이상 생성이 가능함
+		 * */
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		Product product = new Product();
@@ -77,6 +76,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 	/**
 	 * 특정물건 정보 보여주기
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -90,6 +90,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 		ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
 		return productDTO;
 	}
+
 	/**
 	 * 물건입고
 	 */
@@ -103,7 +104,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 		Iterable<Product> productList = productRepository.findAll();
 		ModelMapper modelMapper = new ModelMapper();
 		List<ProductDTO> result = new ArrayList<>();
-		productList.forEach(p -> result.add(new ModelMapper().map(p,ProductDTO.class)));
+		productList.forEach(p -> result.add(new ModelMapper().map(p, ProductDTO.class)));
 
 		return result;
 	}

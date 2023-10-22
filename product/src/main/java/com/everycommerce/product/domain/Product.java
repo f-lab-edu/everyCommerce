@@ -15,6 +15,9 @@ import java.time.LocalDateTime;
 @Setter
 public class Product {
 
+	/*
+	* TODO: 자동생성으로 바꾸기
+	* */
 	@Id
 	@Column(name = "productId")
 	private String id;
@@ -46,6 +49,9 @@ public class Product {
 	/**
 	 * 등록일자
 	 */
+	/*
+	* TODO: 생성시에 자동등록하게 바꾸기
+	* */
 	@Column
 	private LocalDateTime createdDate;
 

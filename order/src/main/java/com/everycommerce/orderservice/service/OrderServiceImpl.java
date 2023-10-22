@@ -2,6 +2,7 @@ package com.everycommerce.orderservice.service;
 
 import com.everycommerce.orderservice.domain.Order;
 import com.everycommerce.orderservice.dto.OrderDTO;
+import com.everycommerce.orderservice.dto.ProductDTO;
 import com.everycommerce.orderservice.repository.OrderRepository;
 import com.everycommerce.orderservice.vo.RequestProduct;
 import org.modelmapper.ModelMapper;
@@ -42,9 +43,9 @@ public class OrderServiceImpl implements OrderSerive{
 
 		//String url ="http://product:9091/product-service/api/decrease";
 		String url ="http://127.0.0.1:9091/product-service/api/decrease";
-		ResponseEntity<Boolean> test = restTemplate.exchange(url, HttpMethod.POST, entity, new ParameterizedTypeReference<Boolean>() {
+		ResponseEntity<ProductDTO> dto = restTemplate.exchange(url, HttpMethod.POST, entity, new ParameterizedTypeReference<ProductDTO>() {
 		});
-		System.out.println(test.getBody());
+		System.out.println(dto.getBody());
 		orderRepository.save(order);
 
 	}

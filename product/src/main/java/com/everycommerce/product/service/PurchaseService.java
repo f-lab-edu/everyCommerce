@@ -8,7 +8,7 @@ import java.util.List;
 public interface PurchaseService {
 
 	/*구매*/
-	Boolean purchase(DecreaseDTO decreaseDTO) throws InterruptedException ;
+	ProductDTO purchase(DecreaseDTO decreaseDTO) throws InterruptedException ;
 
 	void createProduct(ProductDTO product);
 
