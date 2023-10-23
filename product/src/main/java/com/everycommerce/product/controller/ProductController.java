@@ -55,8 +55,8 @@ public class ProductController {
 	 * @param id
 	 * @return
 	 */
-	@PostMapping("/api/getProduct")
-	public ResponseEntity<ProductDTO> getProduct(String id) {
+	@PostMapping("/api/getProduct/{id}")
+	public ResponseEntity<ProductDTO> getProduct(@PathVariable("id") String id) {
 
 		ProductDTO productDTO = purchaseService.getProduct(id);
 
@@ -83,11 +83,11 @@ public class ProductController {
 	 * 물건 재고 줄이기
 	 */
 	@PostMapping("/api/decrease")
-	public ResponseEntity<ProductDTO> purchase(@RequestBody DecreaseDTO decreaseDTO) throws InterruptedException {
+	public ProductDTO purchase(@RequestBody DecreaseDTO decreaseDTO) throws InterruptedException {
 
 		ProductDTO productDTO = purchaseService.purchase(decreaseDTO);
 
-		return ResponseEntity.status(HttpStatus.OK).body(productDTO);
+		return productDTO;
 	}
 
 }

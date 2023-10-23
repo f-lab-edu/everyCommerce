@@ -26,7 +26,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 	 * 구매
 	 * 동시성보장
 	 */
-	@Transactional
+
 	@Override
 	public ProductDTO purchase(DecreaseDTO decreaseDTO) {
 

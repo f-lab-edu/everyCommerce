@@ -5,6 +5,7 @@ import com.everycommerce.orderservice.dto.OrderDTO;
 import com.everycommerce.orderservice.dto.ProductDTO;
 import com.everycommerce.orderservice.repository.OrderRepository;
 import com.everycommerce.orderservice.vo.RequestProduct;
+import com.everycommerce.orderservice.vo.ResponseProduct;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.core.ParameterizedTypeReference;
@@ -25,7 +26,7 @@ public class OrderServiceImpl implements OrderSerive{
 
 	@Override
 	@Transactional
-	public void createOrder(OrderDTO orderDTO) {
+	public ResponseProduct createOrder(OrderDTO orderDTO) {
 
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
@@ -45,10 +46,19 @@ public class OrderServiceImpl implements OrderSerive{
 		String url ="http://127.0.0.1:9091/product-service/api/decrease";
 		ResponseEntity<ProductDTO> dto = restTemplate.exchange(url, HttpMethod.POST, entity, new ParameterizedTypeReference<ProductDTO>() {
 		});
-		System.out.println(dto.getBody());
+		ProductDTO productDTO = dto.getBody();
+		ResponseProduct responseProduct = new ResponseProduct();
+		responseProduct.setProductId(productDTO.getId());
+		responseProduct.setQuantity(productDTO.getQuantity());
+
+
 		orderRepository.save(order);
 
+		return responseProduct;
+
 	}
+
+
 
 	@Override
 	@Transactional
