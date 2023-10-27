@@ -6,6 +6,7 @@ import com.everycommerce.product.dto.ProductDTO;
 import com.everycommerce.product.repository.ProductRepository;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.modelmapper.ModelMapper;
 
@@ -28,14 +29,23 @@ public class PurchaseServiceImpl implements PurchaseService {
 	 */
 
 	@Override
+	@Transactional
 	public ProductDTO purchase(DecreaseDTO decreaseDTO) {
 
-		Product product = productRepository.findByWithPessimisticLock(decreaseDTO.getId());
-		product.decrease(decreaseDTO.getCount());
-		productRepository.save(product);
+		Optional<Product> product = productRepository.findById(decreaseDTO.getId());
+		product.get().decrease(decreaseDTO.getCount());
+		productRepository.save(product.get());
 		ModelMapper modelMapper = new ModelMapper();
 		ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
 		return productDTO;
+	}
+
+	@Override
+	@Transactional
+	public void purchase2(DecreaseDTO decreaseDTO) throws InterruptedException {
+		Optional<Product> product = productRepository.findById(decreaseDTO.getId());
+		product.get().decrease(decreaseDTO.getCount());
+		productRepository.save(product.get());
 	}
 
 

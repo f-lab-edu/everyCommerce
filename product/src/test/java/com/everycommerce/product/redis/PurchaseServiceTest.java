@@ -1,11 +1,9 @@
-package com.everycommerce.product.service;
+package com.everycommerce.product.redis;
 
 import com.everycommerce.product.domain.Product;
 import com.everycommerce.product.dto.DecreaseDTO;
 import com.everycommerce.product.repository.ProductRepository;
-import org.aspectj.lang.annotation.After;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import com.everycommerce.product.service.PurchaseService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,11 +14,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @SpringBootTest
 public class PurchaseServiceTest {
 
 	@Autowired
-	private PurchaseService purchaseService;
+	private PurchaseLock purchase;
 	@Autowired
 	private ProductRepository productRepository;
 
@@ -37,10 +36,8 @@ public class PurchaseServiceTest {
 		for (int i = 0; i < threadCount; i++) {
 			executorService.submit(() -> {
 				try {
+					purchase.decrease(decreaseDTO);
 
-					purchaseService.purchase(decreaseDTO);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
 				} finally {
 					latch.countDown();
 				}

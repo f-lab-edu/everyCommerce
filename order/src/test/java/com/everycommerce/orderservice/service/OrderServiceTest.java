@@ -65,7 +65,7 @@ public class OrderServiceTest {
 
 		HttpEntity<String> entity = new HttpEntity<>(id,headers);
 
-		String url ="http://127.0.0.1:9091/product-service//api/getProduct/"+product.getId();
+		String url ="http://127.0.0.1:9091/product-service/api/getProduct/"+product.getId();
 		ResponseEntity<ProductDTO> dto = restTemplate.exchange(url, HttpMethod.POST, entity, new ParameterizedTypeReference<ProductDTO>() {
 		});
 		assertEquals(0,dto.getBody().getQuantity());

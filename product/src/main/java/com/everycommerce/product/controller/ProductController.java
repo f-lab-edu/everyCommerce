@@ -2,6 +2,7 @@ package com.everycommerce.product.controller;
 
 import com.everycommerce.product.dto.DecreaseDTO;
 import com.everycommerce.product.dto.ProductDTO;
+import com.everycommerce.product.redis.PurchaseLock;
 import com.everycommerce.product.service.PurchaseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +16,11 @@ import java.util.List;
 public class ProductController {
 
 	private final PurchaseService purchaseService;
+	private PurchaseLock lock;
 
-	public ProductController(PurchaseService purchaseService) {
+	public ProductController(PurchaseService purchaseService, PurchaseLock lock) {
 		this.purchaseService = purchaseService;
+		this.lock = lock;
 	}
 
 	/* 물건에 대한 정보를 등록 조회 수정 삭제하는 service이다.
@@ -83,11 +86,10 @@ public class ProductController {
 	 * 물건 재고 줄이기
 	 */
 	@PostMapping("/api/decrease")
-	public ProductDTO purchase(@RequestBody DecreaseDTO decreaseDTO) throws InterruptedException {
+	public void purchase(@RequestBody DecreaseDTO decreaseDTO) throws InterruptedException {
 
-		ProductDTO productDTO = purchaseService.purchase(decreaseDTO);
+		lock.decrease(decreaseDTO);
 
-		return productDTO;
 	}
 
 }
