@@ -4,7 +4,10 @@ import com.everycommerce.product.domain.Product;
 import com.everycommerce.product.dto.DecreaseDTO;
 import com.everycommerce.product.dto.ProductDTO;
 import com.everycommerce.product.repository.ProductRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.convention.MatchingStrategies;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,14 +16,19 @@ import org.modelmapper.ModelMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Service
 public class PurchaseServiceImpl implements PurchaseService {
 
 	private final ProductRepository productRepository;
 
-	public PurchaseServiceImpl(ProductRepository productRepository) {
+	private RedissonClient redissonClient;
+
+	public PurchaseServiceImpl(ProductRepository productRepository, RedissonClient redissonClient) {
 		this.productRepository = productRepository;
+		this.redissonClient = redissonClient;
 	}
 
 	/**
@@ -41,11 +49,28 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 
 	@Override
-	@Transactional
 	public void purchase2(DecreaseDTO decreaseDTO) throws InterruptedException {
-		Optional<Product> product = productRepository.findById(decreaseDTO.getId());
-		product.get().decrease(decreaseDTO.getCount());
-		productRepository.save(product.get());
+		RLock lock = redissonClient.getLock(decreaseDTO.getId());
+		boolean available = false;
+		try {
+			log.info("Acquired lock for key {}", decreaseDTO.getId());
+			available = lock.tryLock(10, 1, TimeUnit.SECONDS);
+			if(!available){
+				log.error("lock획득 실패");
+				return;
+			}
+			Optional<Product> product = productRepository.findById(decreaseDTO.getId());
+			product.get().decrease(decreaseDTO.getCount());
+			productRepository.save(product.get());
+		}catch (InterruptedException e){
+			throw new RuntimeException(e);
+		}finally {
+			if(available){
+				log.info("test");
+				lock.unlock();
+
+			}
+		}
 	}
 
 

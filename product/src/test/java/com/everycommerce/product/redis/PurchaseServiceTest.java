@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PurchaseServiceTest {
 
 	@Autowired
-	private PurchaseLock purchase;
+	private PurchaseService purchase;
 	@Autowired
 	private ProductRepository productRepository;
 
@@ -36,8 +36,10 @@ public class PurchaseServiceTest {
 		for (int i = 0; i < threadCount; i++) {
 			executorService.submit(() -> {
 				try {
-					purchase.decrease(decreaseDTO);
+					purchase.purchase2(decreaseDTO);
 
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				} finally {
 					latch.countDown();
 				}

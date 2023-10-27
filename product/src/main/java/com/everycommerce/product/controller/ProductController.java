@@ -88,7 +88,7 @@ public class ProductController {
 	@PostMapping("/api/decrease")
 	public void purchase(@RequestBody DecreaseDTO decreaseDTO) throws InterruptedException {
 
-		lock.decrease(decreaseDTO);
+		purchaseService.purchase2(decreaseDTO);
 
 	}
 

@@ -26,6 +26,7 @@ public class PurchaseLock {
 		RLock lock = redissonClient.getLock(decreaseDTO.getId());
 		boolean available = false;
 		try {
+			log.info("Acquired lock for key {}", decreaseDTO.getId());
 			available = lock.tryLock(10, 1, TimeUnit.SECONDS);
 
 			if(!available){
@@ -38,6 +39,7 @@ public class PurchaseLock {
 			throw new RuntimeException(e);
 		}finally {
 			if(available){
+				log.info("test");
 				lock.unlock();
 
 			}
