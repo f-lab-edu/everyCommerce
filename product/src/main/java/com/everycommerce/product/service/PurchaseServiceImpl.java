@@ -122,7 +122,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 		Optional<Product> product = productRepository.findById(id);
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-		ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
+		ProductDTO productDTO = modelMapper.map(product.get(), ProductDTO.class);
 		return productDTO;
 	}
 
