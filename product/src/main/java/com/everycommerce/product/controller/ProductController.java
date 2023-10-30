@@ -4,6 +4,7 @@ import com.everycommerce.product.dto.DecreaseDTO;
 import com.everycommerce.product.dto.ProductDTO;
 import com.everycommerce.product.redis.PurchaseLock;
 import com.everycommerce.product.service.PurchaseService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/product-service")
+@Slf4j
 public class ProductController {
 
 	private final PurchaseService purchaseService;
@@ -87,7 +89,7 @@ public class ProductController {
 	 */
 	@PostMapping("/api/decrease")
 	public void purchase(@RequestBody DecreaseDTO decreaseDTO) throws InterruptedException {
-
+		log.info("재고줄이기 시작");
 		purchaseService.purchase2(decreaseDTO);
 
 	}

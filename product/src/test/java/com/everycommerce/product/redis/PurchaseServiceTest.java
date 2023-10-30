@@ -16,6 +16,7 @@ import java.util.concurrent.Executors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+
 public class PurchaseServiceTest {
 
 	@Autowired
@@ -30,12 +31,14 @@ public class PurchaseServiceTest {
 		decreaseDTO.setId("1");
 		int threadCount = 100;
 		Executor executor = Executors.newCachedThreadPool();//쓰레드풀 재사용
-		ExecutorService executorService = Executors.newFixedThreadPool(32); //고정된 쓰레드
+		ExecutorService executorService = Executors.newFixedThreadPool(100); //고정된 쓰레드
 		CountDownLatch latch = new CountDownLatch(100);//100 개 끝날때까지 ,,
 
 		for (int i = 0; i < threadCount; i++) {
 			executorService.submit(() -> {
 				try {
+
+					System.out.println("test시작");
 					purchase.purchase2(decreaseDTO);
 
 				} catch (InterruptedException e) {

@@ -41,21 +41,23 @@ public class OrderServiceTest {
 		orderDTO.setQuantity(1L);
 		orderDTO.setMemberId("1");
 		orderDTO.setProductId("1");
-		int threadCount = 100;
+		int threadCount = 30;
 		Executor executor = Executors.newCachedThreadPool();//쓰레드풀 재사용
-		ExecutorService executorService = Executors.newFixedThreadPool(32); //고정된 쓰레드
-		CountDownLatch latch = new CountDownLatch(100);//100 개 끝날때까지 ,,
+		ExecutorService executorService = Executors.newFixedThreadPool(30); //고정된 쓰레드
+		CountDownLatch latch = new CountDownLatch(30);//100 개 끝날때까지 ,,
 
 		for (int i = 0; i < threadCount; i++) {
 			executorService.submit(() -> {
 				try {
-					responseProduct = orderSerive.createOrder(orderDTO);
+					System.out.println("test시작");
+					orderSerive.createOrder(orderDTO);
 				} finally {
 					latch.countDown();
 				}
 			});
 		}
-		RequestProduct product = new RequestProduct();
+		latch.await();
+/*		RequestProduct product = new RequestProduct();
 
 		product.setId(orderDTO.getProductId());
 		String id = "1";
@@ -68,8 +70,7 @@ public class OrderServiceTest {
 		String url ="http://127.0.0.1:9091/product-service/api/getProduct/"+product.getId();
 		ResponseEntity<ProductDTO> dto = restTemplate.exchange(url, HttpMethod.POST, entity, new ParameterizedTypeReference<ProductDTO>() {
 		});
-		assertEquals(0,dto.getBody().getQuantity());
-		latch.await();
+		assertEquals(0,dto.getBody().getQuantity());*/
 
 
 

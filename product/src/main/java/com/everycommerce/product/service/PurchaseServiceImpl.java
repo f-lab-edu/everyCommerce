@@ -66,7 +66,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 			throw new RuntimeException(e);
 		}finally {
 			if(available){
-				log.info("test");
+				log.info("락 지움");
 				lock.unlock();
 
 			}

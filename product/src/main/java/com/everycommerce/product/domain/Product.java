@@ -3,6 +3,7 @@ package com.everycommerce.product.domain;
 import com.everycommerce.product.exception.InsufficientQuantitiyException;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @DynamicUpdate /*모든 컬럼중에 변경된 컬럼만 update하는 기능*/
 @Getter
 @Setter
+@Slf4j
 public class Product {
 
 	/*
@@ -68,7 +70,7 @@ public class Product {
 		if (this.quantity - quantity < 0) {
 			throw new InsufficientQuantitiyException("there are any have quantity");
 		}
-
+		log.info("재고줄이기 decrease");
 		this.quantity -= quantity;
 	}
 }
