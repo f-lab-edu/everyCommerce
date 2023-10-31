@@ -34,23 +34,13 @@ public class PurchaseServiceImpl implements PurchaseService {
 	/**
 	 * 구매
 	 * 동시성보장
+	 * TODO: 카프카로 응답보내기
 	 */
 
 	@Override
-	@Transactional
-	public ProductDTO purchase(DecreaseDTO decreaseDTO) {
-
-		Optional<Product> product = productRepository.findById(decreaseDTO.getId());
-		product.get().decrease(decreaseDTO.getCount());
-		productRepository.save(product.get());
-		ModelMapper modelMapper = new ModelMapper();
-		ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
-		return productDTO;
-	}
-
-	@Override
-	public void purchase2(DecreaseDTO decreaseDTO) throws InterruptedException {
+	public void purchase(DecreaseDTO decreaseDTO) throws InterruptedException {
 		RLock lock = redissonClient.getLock(decreaseDTO.getId());
+
 		boolean available = false;
 		try {
 			log.info("Acquired lock for key {}", decreaseDTO.getId());
@@ -73,23 +63,6 @@ public class PurchaseServiceImpl implements PurchaseService {
 		}
 	}
 
-
-
-/*
-	@Override
-	@Transactional
-	public Boolean purchase(String id, long count) throws InterruptedException {
-		*/
-	/*
-	 * TODO: order로 빠져야하는 기능.
-	 * *//*
-
-		Product product = productRepository.findByWithPessimisticLock(id);
-		product.decrease(count);
-		productRepository.save(product);
-		return true;
-	}
-*/
 
 	@Override
 	@Transactional
@@ -131,7 +104,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 	 */
 
 
-	//물건 리스트
+
+	/**
+	 * 물건 리스트
+	 * @return List<ProductDTO>
+	 */
 	@Override
 	@Transactional
 	public List<ProductDTO> getProducts() {

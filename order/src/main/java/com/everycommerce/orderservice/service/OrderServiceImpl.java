@@ -17,11 +17,13 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @Slf4j
-public class OrderServiceImpl implements OrderSerive{
+public class OrderServiceImpl implements OrderSerive {
 
 	OrderRepository orderRepository;
 	RestTemplate restTemplate;
-	public OrderServiceImpl(OrderRepository orderRepository,	RestTemplate restTemplate){
+
+
+	public OrderServiceImpl(OrderRepository orderRepository, RestTemplate restTemplate) {
 		this.orderRepository = orderRepository;
 		this.restTemplate = restTemplate;
 	}
@@ -42,13 +44,13 @@ public class OrderServiceImpl implements OrderSerive{
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
-		HttpEntity<RequestProduct> entity = new HttpEntity<>(product,headers);
+		HttpEntity<RequestProduct> entity = new HttpEntity<>(product, headers);
 
 		/**
-		 * 다른 연결 이용
+		 * TODO: 다른 연결 이용
 		 */
 		//String url ="http://product:9091/product-service/api/decrease";
-		String url ="http://127.0.0.1:9091/product-service/api/decrease";
+		String url = "http://127.0.0.1:9091/product-service/api/decrease";
 		ResponseEntity<ProductDTO> dto = restTemplate.exchange(url, HttpMethod.POST, entity, new ParameterizedTypeReference<ProductDTO>() {
 		});
 
@@ -66,7 +68,6 @@ public class OrderServiceImpl implements OrderSerive{
 		return responseProduct;
 
 	}
-
 
 
 	@Override

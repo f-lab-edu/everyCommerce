@@ -9,6 +9,12 @@ import javax.persistence.LockModeType;
 
 public interface ProductRepository extends JpaRepository<Product,String> {
 
+
+	/**
+	 * 비관적 락 -> 래디스로 대체
+	 * @param id
+	 * @return
+	 */
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	@Query("select p from Product p where p.id =:id")
 	 Product findByWithPessimisticLock(String id);

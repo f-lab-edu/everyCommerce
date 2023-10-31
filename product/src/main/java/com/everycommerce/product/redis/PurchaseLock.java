@@ -33,7 +33,7 @@ public class PurchaseLock {
 				log.error("lock획득 실패");
 				return;
 			}
-			purchaseService.purchase2(decreaseDTO);
+			purchaseService.purchase(decreaseDTO);
 
 		}catch (InterruptedException e){
 			throw new RuntimeException(e);

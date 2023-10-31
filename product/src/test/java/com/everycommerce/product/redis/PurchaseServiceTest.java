@@ -39,7 +39,7 @@ public class PurchaseServiceTest {
 				try {
 
 					System.out.println("test시작");
-					purchase.purchase2(decreaseDTO);
+					purchase.purchase(decreaseDTO);
 
 				} catch (InterruptedException e) {
 					e.printStackTrace();

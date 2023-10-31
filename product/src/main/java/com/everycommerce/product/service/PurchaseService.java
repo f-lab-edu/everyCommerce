@@ -8,8 +8,8 @@ import java.util.List;
 public interface PurchaseService {
 
 	/*구매*/
-	ProductDTO purchase(DecreaseDTO decreaseDTO) throws InterruptedException ;
-	void purchase2(DecreaseDTO decreaseDTO) throws InterruptedException ;
+
+	void purchase(DecreaseDTO decreaseDTO) throws InterruptedException ;
 
 	void createProduct(ProductDTO product);
 

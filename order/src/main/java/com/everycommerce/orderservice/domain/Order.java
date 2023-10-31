@@ -35,9 +35,6 @@ public class Order {
 	@Column
 	private String productId;
 
-	/*
-	* TODO: create시간에 자동생성되게
-	* */
 	@Column(updatable = false)//한번생성시 변경불가
 	@CreatedDate //인스턴스가 생성되는거을 감지하여 일자를 저장하는 어노테이션
 	private LocalDateTime orderTime;
