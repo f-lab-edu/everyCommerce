@@ -90,7 +90,7 @@ public class ProductController {
 	@PostMapping("/api/decrease")
 	public void purchase(@RequestBody DecreaseDTO decreaseDTO) throws InterruptedException {
 		log.info("재고줄이기 시작");
-		purchaseService.purchase2(decreaseDTO);
+		purchaseService.purchase(decreaseDTO);
 
 	}
 
