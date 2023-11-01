@@ -24,7 +24,7 @@ services:
       context: .
       dockerfile: ./commerce/Dockerfile
     ports:
-      - "5001:9090"
+      - "9090:9090"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/users_db?useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: "root"
@@ -63,7 +63,7 @@ services:
       context: .
       dockerfile: ./order/Dockerfile
     ports:
-      - "9092:9092"
+      - "6000:9093"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/users_db?useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: "root"
@@ -82,7 +82,7 @@ services:
   apigateway:
     container_name: gateway
     ports:
-    - "9002:9001"
+    - "9002:9002"
     build:
       context: .
       dockerfile: ./gateway/Dockerfile

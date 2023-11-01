@@ -6,20 +6,24 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: member-service
+        - id: nginx-member
           uri: http://nginx-member:90/
           predicates:
             - Path=/member-service/**
+        - id: meber-service
+          uri: http://member1:9090/
+          predicates:
+            - Path=/member-service2/**
         - id: product-service
           uri: http://product:9091/
           predicates:
             - Path=/product-service/**
         - id: order-service
-          uri: http://order:9092/
+          uri: http://order:6000/
           predicates:
             - Path=/order-service/**
 server:
-  port: 9001
+  port: 9002
 logging:
   level:
     root: INFO
