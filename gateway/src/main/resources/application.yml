@@ -11,7 +11,7 @@ spring:
           predicates:
             - Path=/member-service/**
         - id: meber-service
-          uri: http://member1:9090/
+          uri: http://member1:9081/
           predicates:
             - Path=/member-service2/**
         - id: product-service
@@ -19,7 +19,7 @@ spring:
           predicates:
             - Path=/product-service/**
         - id: order-service
-          uri: http://order:6000/
+          uri: http://order:7005/
           predicates:
             - Path=/order-service/**
 server:

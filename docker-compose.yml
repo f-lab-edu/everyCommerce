@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+  #TODO: database먼저 실행 되어야지 다른 것들 실행하도록 조치
   database:
     container_name: mysql_db
     image: mysql/mysql-server:5.7
@@ -24,7 +25,7 @@ services:
       context: .
       dockerfile: ./commerce/Dockerfile
     ports:
-      - "9090:9090"
+      - "9081:9090"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/users_db?useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: "root"
@@ -37,7 +38,7 @@ services:
       context: .
       dockerfile: ./commerce/Dockerfile
     ports:
-      - "5000:9090"
+      - "9082:9090"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/users_db?useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: "root"
@@ -50,7 +51,7 @@ services:
       context: .
       dockerfile: ./product/Dockerfile
     ports:
-      - "9091:9091"
+      - "7006:7006"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/users_db?useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: "root"
@@ -63,7 +64,7 @@ services:
       context: .
       dockerfile: ./order/Dockerfile
     ports:
-      - "7000:9092"
+      - "7005:7005"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/users_db?useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: "root"
