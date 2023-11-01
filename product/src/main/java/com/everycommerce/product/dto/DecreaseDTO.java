@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class DecreaseDTO {
+
 	String id;
 
 	long count;

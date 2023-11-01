@@ -29,12 +29,25 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.modelmapper:modelmapper:2.4.4'
+    implementation group: 'org.redisson', name: 'redisson-spring-boot-starter', version: '3.24.1'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
     testImplementation 'org.assertj:assertj-core'
+
+    // JUnit 5 (JUnit Jupiter)를 사용하는 경우
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+// Mockito
+    testImplementation 'org.mockito:mockito-core:4.2.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:4.2.0'
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
+
+
 }
 
 dependencyManagement {

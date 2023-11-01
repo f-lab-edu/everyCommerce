@@ -4,57 +4,65 @@ import com.everycommerce.product.domain.Product;
 import com.everycommerce.product.dto.DecreaseDTO;
 import com.everycommerce.product.dto.ProductDTO;
 import com.everycommerce.product.repository.ProductRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.convention.MatchingStrategies;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Service
 public class PurchaseServiceImpl implements PurchaseService {
 
 	private final ProductRepository productRepository;
 
-	public PurchaseServiceImpl(ProductRepository productRepository) {
+	private RedissonClient redissonClient;
+
+	public PurchaseServiceImpl(ProductRepository productRepository, RedissonClient redissonClient) {
 		this.productRepository = productRepository;
+		this.redissonClient = redissonClient;
 	}
 
 	/**
 	 * 구매
 	 * 동시성보장
+	 * TODO: 카프카로 응답보내기
 	 */
 
 	@Override
-	public ProductDTO purchase(DecreaseDTO decreaseDTO) {
+	public void purchase(DecreaseDTO decreaseDTO) throws InterruptedException {
+		RLock lock = redissonClient.getLock(decreaseDTO.getId());
 
-		Product product = productRepository.findByWithPessimisticLock(decreaseDTO.getId());
-		product.decrease(decreaseDTO.getCount());
-		productRepository.save(product);
-		ModelMapper modelMapper = new ModelMapper();
-		ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
-		return productDTO;
+		boolean available = false;
+		try {
+			log.info("Acquired lock for key {}", decreaseDTO.getId());
+			available = lock.tryLock(10, 1, TimeUnit.SECONDS);
+			if(!available){
+				log.error("lock획득 실패");
+				return;
+			}
+			Optional<Product> product = productRepository.findById(decreaseDTO.getId());
+			product.get().decrease(decreaseDTO.getCount());
+			productRepository.save(product.get());
+		}catch (InterruptedException e){
+			throw new RuntimeException(e);
+		}finally {
+			if(available){
+				log.info("락 지움");
+				lock.unlock();
+
+			}
+		}
 	}
 
-
-
-/*
-	@Override
-	@Transactional
-	public Boolean purchase(String id, long count) throws InterruptedException {
-		*/
-	/*
-	 * TODO: order로 빠져야하는 기능.
-	 * *//*
-
-		Product product = productRepository.findByWithPessimisticLock(id);
-		product.decrease(count);
-		productRepository.save(product);
-		return true;
-	}
-*/
 
 	@Override
 	@Transactional
@@ -87,7 +95,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 		Optional<Product> product = productRepository.findById(id);
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-		ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
+		ProductDTO productDTO = modelMapper.map(product.get(), ProductDTO.class);
 		return productDTO;
 	}
 
@@ -96,7 +104,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 	 */
 
 
-	//물건 리스트
+
+	/**
+	 * 물건 리스트
+	 * @return List<ProductDTO>
+	 */
 	@Override
 	@Transactional
 	public List<ProductDTO> getProducts() {
