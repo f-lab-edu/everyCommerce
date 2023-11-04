@@ -1,6 +1,5 @@
 package com.every.commerce.controller;
 
-
 import com.every.commerce.dto.UserDTO;
 import com.every.commerce.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.lang.reflect.InvocationTargetException;
-
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/member-service")
@@ -54,10 +53,5 @@ public class MemberController {
 
 		return id;
 	}
-	@GetMapping("/api/v1/test")
-	public void test(){
-		System.out.println("test");
-	}
-
 
 }

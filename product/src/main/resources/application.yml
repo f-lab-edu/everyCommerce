@@ -1,4 +1,7 @@
 spring:
+  redis:
+    host: redis_test
+    port: 6379
   datasource:
     url: jdbc:mysql://localhost:3306/commerce?rewriteBatchedStatements=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
     username: root
@@ -13,4 +16,3 @@ spring:
 #    org.springframework.security: DEBUG
 server:
   port: 9091
-

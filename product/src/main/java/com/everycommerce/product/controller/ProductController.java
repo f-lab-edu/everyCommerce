@@ -25,11 +25,12 @@ public class ProductController {
 		this.lock = lock;
 	}
 
-	/* 물건에 대한 정보를 등록 조회 수정 삭제하는 service이다.
+	/*
+	 * 물건에 대한 정보를 등록 조회 수정 삭제하는 service이다.
 	 * 구매는 따로 필요함.
 	 * member과 연동이필요하다.
 	 * 특정 물건(sort 추가 필요)에 대해선 자동으로 재고를 채우는 로직을 만들것.
-	 * */
+	 */
 	@RequestMapping("/")
 	public String home() {
 		return "forward:/hello.html";
@@ -78,7 +79,6 @@ public class ProductController {
 	@GetMapping("/api/getProducts")
 	public ResponseEntity<List<ProductDTO>> getProducts() {
 
-
 		List<ProductDTO> productDTOList = purchaseService.getProducts();
 
 		return ResponseEntity.status(HttpStatus.OK).body(productDTOList);
@@ -90,7 +90,7 @@ public class ProductController {
 	@PostMapping("/api/decrease")
 	public void purchase(@RequestBody DecreaseDTO decreaseDTO) throws InterruptedException {
 		log.info("재고줄이기 시작");
-		purchaseService.purchase2(decreaseDTO);
+		purchaseService.purchase(decreaseDTO);
 
 	}
 
