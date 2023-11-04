@@ -7,15 +7,15 @@ spring:
     gateway:
       routes:
         - id: member-service
-          uri: http://localhost:90/
+          uri: http://nginx-member:90/
           predicates:
             - Path=/member-service/**
         - id: product-service
-          uri: http://localhost:70/
+          uri: http://product:9091/
           predicates:
             - Path=/product-service/**
         - id: order-service
-          uri: http://localhost:7000/
+          uri: http://order:9094/
           predicates:
             - Path=/order-service/**
 server:
