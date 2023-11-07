@@ -2,6 +2,7 @@ FROM openjdk:11-jre as build
 
 COPY gradlew .
 COPY gradle gradle
+
 # 권한 부여
 RUN chmod +x ./gradlew
 
