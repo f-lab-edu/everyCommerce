@@ -26,7 +26,7 @@
     재 실행시
     cd commerce && gradle build -x test && cd ..
     cd gateway && gradle build -x test && cd ..
-    cd order && gradle build -x test && cd ..
+    cd order && gradle build -x test && cd ..다희 
     cd product && gradle build -x test && cd ..
     docker compose build
     docker compose up
@@ -37,6 +37,14 @@
 
 
 
-
+### 포트(로컬/도커)
+    member 9090 / 9090 & 5000  
+        - nginx 90
+    product 9091 / 9091
+        - nginx 80
+    order 9092/7000
+        - nginx 70
+    gateway 9002 / 9002 
+    kafka 9098 
 
 
