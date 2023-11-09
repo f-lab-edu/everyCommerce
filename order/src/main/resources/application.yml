@@ -9,6 +9,13 @@ spring:
       ddl-auto: create
     generate-ddl: true
     show-sql: true
+  kafka:
+    consumer:
+      bootstrap-servers: everykafka:9098
+      group-id: productToOrder
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 #logging:
 #  level:
 #    org.springframework.security: DEBUG

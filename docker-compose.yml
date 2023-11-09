@@ -92,6 +92,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: "1234"
     depends_on:
       - database
+      - kafka
   nginx1:
     container_name: nginx-member
     image: nginx:latest

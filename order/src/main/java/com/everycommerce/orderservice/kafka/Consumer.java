@@ -1,4 +1,4 @@
-package com.everycommerce.product.kafka;
+package com.everycommerce.orderservice.kafka;
 
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;

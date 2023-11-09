@@ -24,10 +24,10 @@ public class ProductController {
 	private PurchaseLock lock;
 
 
-	public ProductController(PurchaseService purchaseService, PurchaseLock lock,Producer producer) {
+	public ProductController(PurchaseService purchaseService, PurchaseLock lock, Producer producer) {
 		this.purchaseService = purchaseService;
 		this.lock = lock;
-		this.producer =producer;
+		this.producer = producer;
 	}
 
 	/* 물건에 대한 정보를 등록 조회 수정 삭제하는 service이다.
@@ -96,14 +96,12 @@ public class ProductController {
 	public void purchase(@RequestBody DecreaseDTO decreaseDTO) throws InterruptedException {
 		log.info("재고줄이기 시작");
 		purchaseService.purchase(decreaseDTO);
-
 	}
 
 	@PostMapping("/publish")
-	public void sendMessageToKafkaTopic(@RequestBody String message ) {
+	public void sendMessageToKafkaTopic(@RequestBody String message) {
 		this.producer.sendMessage(message);
 	}
-
 
 
 }
