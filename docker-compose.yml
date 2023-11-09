@@ -26,14 +26,16 @@ services:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
   kafka:
+    container_name: everykafka
     image: 'bitnami/kafka:latest'
     ports:
       - '9098:9098'
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_LISTENERS=PLAINTEXT://:9098
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9098
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://everykafka:9098
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFAK_CREATE_TOPICS= "product_topic:1:1"
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper
@@ -76,6 +78,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: "1234"
     depends_on:
       - database
+      - kafka
   order:
     container_name: order
     build:

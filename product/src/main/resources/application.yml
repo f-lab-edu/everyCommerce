@@ -12,12 +12,12 @@ spring:
     generate-ddl: true
     show-sql: true
   kafka:
-    bootstrap-servers: kafka:9098
+    bootstrap-servers: everykafka:9098
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
     consumer:
-      group-id: yourGroup
+      group-id: productToOrder
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 #logging:

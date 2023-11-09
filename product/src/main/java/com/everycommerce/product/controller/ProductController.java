@@ -2,9 +2,11 @@ package com.everycommerce.product.controller;
 
 import com.everycommerce.product.dto.DecreaseDTO;
 import com.everycommerce.product.dto.ProductDTO;
+import com.everycommerce.product.kafka.Producer;
 import com.everycommerce.product.redis.PurchaseLock;
 import com.everycommerce.product.service.PurchaseService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,12 +19,15 @@ import java.util.List;
 @Slf4j
 public class ProductController {
 
+	private final Producer producer;
 	private final PurchaseService purchaseService;
 	private PurchaseLock lock;
 
-	public ProductController(PurchaseService purchaseService, PurchaseLock lock) {
+
+	public ProductController(PurchaseService purchaseService, PurchaseLock lock,Producer producer) {
 		this.purchaseService = purchaseService;
 		this.lock = lock;
+		this.producer =producer;
 	}
 
 	/* 물건에 대한 정보를 등록 조회 수정 삭제하는 service이다.
@@ -93,5 +98,12 @@ public class ProductController {
 		purchaseService.purchase(decreaseDTO);
 
 	}
+
+	@PostMapping("/publish")
+	public void sendMessageToKafkaTopic(@RequestBody String message ) {
+		this.producer.sendMessage(message);
+	}
+
+
 
 }
