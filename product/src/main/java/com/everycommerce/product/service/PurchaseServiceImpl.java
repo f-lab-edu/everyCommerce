@@ -65,16 +65,18 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 			ModelMapper modelMapper = new ModelMapper();
 			ProductDTO productDTO = modelMapper.map(product.get(), ProductDTO.class);
+			log.error("kafak1");
 			sendMassageToKafka(objectMapper.writeValueAsString(productDTO));
-			log.error("카프카");
+			log.error("kafak2");
 			//성공시에는 카프카로 product 재고 보내기
 		}catch (InterruptedException | JsonProcessingException e){
 			sendMassageToKafka(e.getMessage());
 		//	throw new RuntimeException(e);
 		}finally {
 			if(available){
-				log.info("락 지움");
+				log.info("unlock1");
 				lock.unlock();
+				log.info("unlock22");
 
 			}
 		}

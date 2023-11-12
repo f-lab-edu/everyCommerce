@@ -94,12 +94,13 @@ public class OrderServiceImpl implements OrderSerive {
 	private ProductDTO listenToProductStock(String message){
 		log.info("Received Kafka message: {}", message);
 		ProductDTO productDTO = convertMessage(message);
-		log.info(message);
+		log.info("message from product: {}",message);
 		return productDTO;
 	}
 
 	private ProductDTO convertMessage(String message) {
 		try {
+
 			return new ObjectMapper().readValue(message, ProductDTO.class);
 		} catch (JsonProcessingException e) {
 			throw new RuntimeException("Failed to convert message to ProductDTO", e);
