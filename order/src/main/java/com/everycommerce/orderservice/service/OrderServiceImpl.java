@@ -18,14 +18,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+
 @Service
 @Slf4j
 public class OrderServiceImpl implements OrderSerive {
 
 	OrderRepository orderRepository;
 	RestTemplate restTemplate;
-
-
 
 	public OrderServiceImpl(OrderRepository orderRepository, RestTemplate restTemplate) {
 		this.orderRepository = orderRepository;
@@ -34,7 +35,8 @@ public class OrderServiceImpl implements OrderSerive {
 
 	@Override
 	@Transactional
-	public ResponseProduct createOrder(OrderDTO orderDTO) {
+	public void createOrder(OrderDTO orderDTO) {
+
 
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
@@ -62,17 +64,7 @@ public class OrderServiceImpl implements OrderSerive {
 		 * 카프카 이용해서 응답받기
 		 */
 
-
-		//ProductDTO productDTO = dto.getBody();
-		ResponseProduct responseProduct = new ResponseProduct();
-	/*	responseProduct.setProductId(productDTO.getId());
-		responseProduct.setQuantity(productDTO.getQuantity());
-*/
-
 		orderRepository.save(order);
-
-		return responseProduct;
-
 	}
 
 
@@ -93,7 +85,14 @@ public class OrderServiceImpl implements OrderSerive {
 	@KafkaListener(topics = "product_topic", groupId = "productToOrder")
 	private void listenToProductStock(String message){
 		log.info("Received Kafka message: {}", message);
-		ProductDTO productDTO = convertMessage(message);
+		try{
+			ProductDTO productDTO = convertMessage(message);
+		}catch (Exception e){
+		 	Order order	= orderRepository.findByProductId(message);
+		 	orderRepository.delete(order);
+		 	log.error("error kafak ajfkadklf~~~~ 수정하고 ");
+
+		}
 		log.info("message from product: {}",message);
 
 	}

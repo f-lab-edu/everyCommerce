@@ -22,7 +22,7 @@ public class OrderController {
 	@PostMapping("/api/newOrder")
 	public String createOrder(@RequestBody OrderDTO orderDTO){
 		orderSerive.createOrder(orderDTO);
-		return "dd";
+		return "success";
 	}
 
 }

@@ -8,7 +8,7 @@ public interface OrderSerive {
 
 	/*주문하는거*/
 
-	ResponseProduct createOrder(OrderDTO orderDTO);
+	void createOrder(OrderDTO orderDTO);
 
 
 	/*멤버 아이디로 주문찾기 */

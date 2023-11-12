@@ -48,12 +48,12 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Override
 	public void purchase(DecreaseDTO decreaseDTO) throws InterruptedException {
 		RLock lock = redissonClient.getLock(decreaseDTO.getId());
-
+		String id = decreaseDTO.getId();
 		boolean available = false;
 		try {
 			log.info("Acquired lock for key {}", decreaseDTO.getId());
 			available = lock.tryLock(10, 1, TimeUnit.SECONDS);
-			if(!available){
+			if (!available) {
 				log.error("lock획득 실패");
 				return;
 			}
@@ -62,23 +62,17 @@ public class PurchaseServiceImpl implements PurchaseService {
 			productRepository.save(product.get());
 
 
-
 			ModelMapper modelMapper = new ModelMapper();
 			ProductDTO productDTO = modelMapper.map(product.get(), ProductDTO.class);
-
-			log.error("kafak1");
 			sendMassageToKafka(objectMapper.writeValueAsString(productDTO));
-			log.error("kafak2");
-			//성공시에는 카프카로 product 재고 보내기
-		}catch (InterruptedException | JsonProcessingException e){
-			sendMassageToKafka(e.getMessage());
-		//	throw new RuntimeException(e);
-		}finally {
-			if(available){
-				log.info("unlock1");
-				lock.unlock();
-				log.info("unlock22");
 
+			//성공시에는 카프카로 product 재고 보내기
+		} catch (InterruptedException | JsonProcessingException e) {
+			sendMassageToKafka(id);
+			//	throw new RuntimeException(e);
+		} finally {
+			if (available) {
+				lock.unlock();
 			}
 		}
 	}
@@ -124,9 +118,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 	 */
 
 
-
 	/**
 	 * 물건 리스트
+	 *
 	 * @return List<ProductDTO>
 	 */
 	@Override
@@ -140,8 +134,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 		return result;
 	}
+
 	public void sendMassageToKafka(String message) {
-		log.error("토픽토픽~~");
-		kafkaTemplate.send("product_topic",message);
+		kafkaTemplate.send("product_topic", message);
 	}
 }
