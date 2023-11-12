@@ -91,11 +91,11 @@ public class OrderServiceImpl implements OrderSerive {
 
 
 	@KafkaListener(topics = "product_topic", groupId = "productToOrder")
-	private ProductDTO listenToProductStock(String message){
+	private void listenToProductStock(String message){
 		log.info("Received Kafka message: {}", message);
 		ProductDTO productDTO = convertMessage(message);
 		log.info("message from product: {}",message);
-		return productDTO;
+
 	}
 
 	private ProductDTO convertMessage(String message) {

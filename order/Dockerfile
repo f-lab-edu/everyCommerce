@@ -13,4 +13,5 @@ FROM eclipse-temurin:11-jre
 
 ARG MODULE_NAME=order
 COPY --from=build ${MODULE_NAME}/build/libs/*.jar  app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+#ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006","-jar","/app.jar"]

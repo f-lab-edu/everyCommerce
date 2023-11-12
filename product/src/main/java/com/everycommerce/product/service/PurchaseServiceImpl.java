@@ -60,11 +60,12 @@ public class PurchaseServiceImpl implements PurchaseService {
 			Optional<Product> product = productRepository.findById(decreaseDTO.getId());
 			product.get().decrease(decreaseDTO.getCount());
 			productRepository.save(product.get());
-			log.info("product to order kafka",objectMapper.writeValueAsString(product.get()));
+
 
 
 			ModelMapper modelMapper = new ModelMapper();
 			ProductDTO productDTO = modelMapper.map(product.get(), ProductDTO.class);
+
 			log.error("kafak1");
 			sendMassageToKafka(objectMapper.writeValueAsString(productDTO));
 			log.error("kafak2");
