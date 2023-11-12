@@ -1,3 +1,4 @@
+/*
 package com.everycommerce.orderservice.kafka;
 
 import org.springframework.kafka.annotation.KafkaListener;
@@ -11,3 +12,4 @@ public class Consumer {
 		// 여기에서 받은 메시지로 필요한 로직을 수행합니다.
 	}
 }
+*/

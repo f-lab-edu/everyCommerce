@@ -4,10 +4,13 @@ import com.everycommerce.product.domain.Product;
 import com.everycommerce.product.dto.DecreaseDTO;
 import com.everycommerce.product.dto.ProductDTO;
 import com.everycommerce.product.repository.ProductRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.convention.MatchingStrategies;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +27,16 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 	private final ProductRepository productRepository;
 
-	private RedissonClient redissonClient;
+	private final KafkaTemplate<String, String> kafkaTemplate;
 
-	public PurchaseServiceImpl(ProductRepository productRepository, RedissonClient redissonClient) {
+	private final RedissonClient redissonClient;
+
+	private final ObjectMapper objectMapper = new ObjectMapper();
+
+	public PurchaseServiceImpl(ProductRepository productRepository, RedissonClient redissonClient, KafkaTemplate<String, String> kafkaTemplate) {
 		this.productRepository = productRepository;
 		this.redissonClient = redissonClient;
+		this.kafkaTemplate = kafkaTemplate;
 	}
 
 	/**
@@ -52,8 +60,17 @@ public class PurchaseServiceImpl implements PurchaseService {
 			Optional<Product> product = productRepository.findById(decreaseDTO.getId());
 			product.get().decrease(decreaseDTO.getCount());
 			productRepository.save(product.get());
-		}catch (InterruptedException e){
-			throw new RuntimeException(e);
+			log.info("product to order kafka",objectMapper.writeValueAsString(product.get()));
+
+
+			ModelMapper modelMapper = new ModelMapper();
+			ProductDTO productDTO = modelMapper.map(product.get(), ProductDTO.class);
+			sendMassageToKafka(objectMapper.writeValueAsString(productDTO));
+			log.error("카프카");
+			//성공시에는 카프카로 product 재고 보내기
+		}catch (InterruptedException | JsonProcessingException e){
+			sendMassageToKafka(e.getMessage());
+		//	throw new RuntimeException(e);
 		}finally {
 			if(available){
 				log.info("락 지움");
@@ -119,5 +136,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 		productList.forEach(p -> result.add(new ModelMapper().map(p, ProductDTO.class)));
 
 		return result;
+	}
+	public void sendMassageToKafka(String message) {
+		log.error("토픽토픽~~");
+		kafkaTemplate.send("product_topic",message);
 	}
 }
