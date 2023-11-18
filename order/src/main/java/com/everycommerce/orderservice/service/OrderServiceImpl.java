@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderSerive {
 		RequestProduct product = new RequestProduct();
 		product.setCount(orderDTO.getQuantity());
 		product.setId(orderDTO.getProductId());
-
+		orderRepository.save(order);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -64,7 +64,7 @@ public class OrderServiceImpl implements OrderSerive {
 		 * 카프카 이용해서 응답받기
 		 */
 
-		orderRepository.save(order);
+
 	}
 
 
