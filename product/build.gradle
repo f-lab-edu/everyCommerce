@@ -34,12 +34,22 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
 
+
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     // Mockito
     testImplementation 'org.mockito:mockito-core:4.2.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:4.2.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.assertj:assertj-core'
+    // https://mvnrepository.com/artifact/org.testcontainers/kafka
+    testImplementation group: 'org.testcontainers', name: 'kafka', version: '1.18.3'
+    testImplementation 'org.testcontainers:redis:1.15.3'
+
+    //docker test
+    testImplementation 'org.testcontainers:testcontainers:1.16.0' // TC 의존성
+    testImplementation 'org.testcontainers:junit-jupiter:1.16.2'  // TC 의존성
+    testImplementation 'org.testcontainers:postgresql:1.17.6'     // PostgreSQL 컨테이너 사용
+    testImplementation 'org.testcontainers:jdbc:1.16.0'
     // JUnit 5 (JUnit Jupiter)를 사용하는 경우
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
 

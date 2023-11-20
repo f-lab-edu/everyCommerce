@@ -7,7 +7,10 @@ import com.everycommerce.product.repository.ProductRepository;
 import com.everycommerce.product.service.PurchaseService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
@@ -17,6 +20,9 @@ import java.util.concurrent.Executors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+@Testcontainers
+@ActiveProfiles("test")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 
 public class PurchaseServiceTest {
 
@@ -24,7 +30,6 @@ public class PurchaseServiceTest {
 	private PurchaseService purchase;
 	@Autowired
 	private ProductRepository productRepository;
-
 	@Test
 	public void test() throws InterruptedException {
 		DecreaseDTO decreaseDTO = new DecreaseDTO();
