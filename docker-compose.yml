@@ -80,13 +80,28 @@ services:
     depends_on:
       - database
       - kafka
-  order:
-    container_name: order
+  order1:
+    container_name: order1
     build:
       context: .
       dockerfile: ./order/Dockerfile
     ports:
-      - "7000:9092"
+      - "7002:9092"
+      - "5007:5007"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/users_db?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "1234"
+    depends_on:
+      - database
+      - kafka
+  order2:
+    container_name: order2
+    build:
+      context: .
+      dockerfile: ./order/Dockerfile
+    ports:
+      - "7001:9092"
       - "5006:5006"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/users_db?useSSL=false&allowPublicKeyRetrieval=true
@@ -104,6 +119,15 @@ services:
     depends_on:
       - member
       - member2
+  nginx2:
+    container_name: nginx-order
+    image: nginx:latest
+    build: ./order/ci
+    ports:
+      - "70:70"
+    depends_on:
+      - order1
+      - order2
   apigateway:
     container_name: gateway
     ports:
