@@ -1,5 +1,5 @@
 # everyCommerce
-
+    
 ### 기술스택:
     JPA DOCKER SPRINGBOOT MSA MYSQL 
     성능테스트: ngrinder
@@ -7,19 +7,19 @@
     컨테이너: docker
     로드밸런싱: spring gateway
 
-### 서버 구조도
+### 프로젝트 전체적인 구조 
     나중에올림
 ### 목표
-    1. 모놀리식이 아닌 MSA로 의존성을 낮춘 프로젝트 구조 생성
+    1. 모놀리식이 아닌 MSA로 서비스간 의존성을 낮춘 프로젝트 구조 생성
     2. 서버과부화를 해결할수 있는 프로젝트
-    3. 
+    3. 동시성처리를 통해 
 ### ERD
     나중에올리겠음
 
 
 ### 빌드 스텝
     첫실행시
-    application.yml ->      ddl-auto: create로 변경해주세요.
+    각 프로젝트 application.yml ->      ddl-auto: create로 변경해주세요.
     docker compose build
     docker compose up
     
@@ -34,7 +34,8 @@
 ### 프로젝트 진행하면서
     https://fabulous-guppy-d1a.notion.site/a24ef7f04f0648f389c6a32eadb8590b?pvs=4
     (수정중..)
-
+### 브랜치 관리 전략
+    Git Flow전략을 사용하였습니다
 
 
 ### 포트(로컬/도커)
