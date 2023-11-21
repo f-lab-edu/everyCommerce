@@ -8,7 +8,8 @@
     로드밸런싱: spring gateway
 
 ### 프로젝트 전체적인 구조 
-    나중에올림
+    ![20231115_173151](https://github.com/f-lab-edu/everyCommerce/assets/74665215/0ab08b5a-f91f-499c-8c09-3d33fcbc1fb1)
+
 ### 목표
     1. 모놀리식이 아닌 MSA로 서비스간 의존성을 낮춘 프로젝트 구조 생성
     2. 서버과부화를 해결할수 있는 프로젝트
