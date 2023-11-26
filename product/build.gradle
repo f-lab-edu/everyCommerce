@@ -43,7 +43,7 @@ dependencies {
     testImplementation 'org.assertj:assertj-core'
     // https://mvnrepository.com/artifact/org.testcontainers/kafka
     testImplementation group: 'org.testcontainers', name: 'kafka', version: '1.18.3'
-    testImplementation 'org.testcontainers:redis:1.15.3'
+
 
     //docker test
     testImplementation 'org.testcontainers:testcontainers:1.16.0' // TC 의존성
