@@ -1,5 +1,5 @@
 rootProject.name = 'everyCommerce'
 
-include 'product'
-include 'order'
-include 'commerce'
+include ':product'
+include ':order'
+include ':common:log'
